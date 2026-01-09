@@ -88,7 +88,7 @@ if [ -z "$BASH_PATH" ]; then
     echo "  Arch:          sudo pacman -S bash"
 elif [ -n "$BASH_MAJOR" ] && [ "$BASH_MAJOR" -lt 4 ]; then
     echo ""
-    echo "[升級 Bash（目前版本 $BASH_MAJOR.$BASH_MINOR，建議 4.0+）]"
+    printf "[升級 Bash（目前版本 %s.%s，建議 4.0+）]\n" "$BASH_MAJOR" "$BASH_MINOR"
     echo ""
     echo "  macOS（內建 3.2 因授權限制）："
     echo "    brew install bash"
