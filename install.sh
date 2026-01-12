@@ -9,16 +9,16 @@
 
 set -e
 
-REPO_URL="https://raw.githubusercontent.com/jerrylin-cyber/init-bash/refs/heads/main/init.sh"
-DEST_FILE="$HOME/.init.sh"
+REPO_URL="https://raw.githubusercontent.com/jerrylin-cyber/init-bash/refs/heads/main/init-work.sh"
+DEST_FILE="$HOME/.init-work.sh"
 
 echo "========================================"
 echo "  init-bash 安裝程式"
 echo "========================================"
 echo
 
-# 下載 init.sh
-echo "正在下載 init.sh..."
+# 下載 init-work.sh
+echo "正在下載 init-work.sh..."
 if command -v curl &> /dev/null; then
     curl -fsSL "$REPO_URL" -o "$DEST_FILE"
 elif command -v wget &> /dev/null; then
