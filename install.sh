@@ -9,7 +9,7 @@
 
 set -e
 
-REPO_URL="https://raw.githubusercontent.com/[username]/init-bash/main/init.sh"
+REPO_URL="https://raw.githubusercontent.com/jerrylin-cyber/init-bash/refs/heads/main/init.sh"
 DEST_FILE="$HOME/.init.sh"
 
 echo "========================================"
