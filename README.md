@@ -102,7 +102,7 @@ source ~/.zshrc  # 或對應的 RC 檔案
 ### 方法二：遠端安裝
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/jerrywusa/init-bash/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/jerrylin-cyber/init-bash/refs/heads/main/install.sh | bash
 source ~/.zshrc  # 或對應的 RC 檔案
 ```
 
