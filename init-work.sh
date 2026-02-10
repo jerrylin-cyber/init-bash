@@ -221,6 +221,8 @@ show_welcome() {
     echo "  因為 Oct 31 = Dec 25"
     echo "  系統: $OS_TYPE | Shell: $(basename "$SHELL")"
     echo "========================================"
+    echo "  這是 init-bash 最後更新：26-02-10"
+    echo "========================================"
     echo ""
     echo "常用 Aliases："
     echo "  ll, la, l    - 列出檔案"
