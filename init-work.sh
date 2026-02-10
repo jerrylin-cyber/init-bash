@@ -55,6 +55,12 @@ alias df='df -h'
 alias du='du -h'
 alias grep='grep --color'
 
+# Git 工具
+alias gexclude='git_exclude'
+alias gskip='git_skip_worktree'
+alias gunskip='git_unskip_worktree'
+alias gskip-ls='git ls-files -v | grep "^S"'
+
 # Linux 專用
 if [[ "$OS_TYPE" == "linux" ]]; then
     alias kde='xinit /usr/bin/startkde'
@@ -143,6 +149,68 @@ backup() {
     cp "$1" "$1.bak.$(date +%Y%m%d_%H%M%S)"
 }
 
+# git_exclude: 將檔案/資料夾添加到本地 .git/info/exclude
+git_exclude() {
+    if [[ -z "$1" ]]; then
+        echo "用法: gexclude <檔案或資料夾>"
+        return 1
+    fi
+
+    if [[ ! -d .git ]]; then
+        echo "錯誤: 目前不在 git 儲存庫中"
+        return 1
+    fi
+
+    local exclude_file=".git/info/exclude"
+
+    # 確保 exclude 檔案存在
+    mkdir -p "$(dirname "$exclude_file")"
+    touch "$exclude_file"
+
+    # 檢查是否已存在
+    if grep -Fxq "$1" "$exclude_file"; then
+        echo "已存在: $1"
+    else
+        echo "$1" >> "$exclude_file"
+        echo "已添加到 $exclude_file: $1"
+    fi
+}
+
+# git_skip_worktree: 忽略檔案變更（保留本地修改）
+git_skip_worktree() {
+    if [[ -z "$1" ]]; then
+        echo "用法: gskip <檔案>"
+        echo "提示: 使用 gskip-ls 查看已忽略的檔案"
+        return 1
+    fi
+
+    if ! git ls-files --error-unmatch "$1" &>/dev/null; then
+        echo "錯誤: $1 不在 git 追蹤中"
+        return 1
+    fi
+
+    git update-index --skip-worktree "$1"
+    echo "已設定忽略變更: $1"
+    echo "提示: 使用 gunskip $1 恢復追蹤"
+}
+
+# git_unskip_worktree: 恢復追蹤檔案變更
+git_unskip_worktree() {
+    if [[ -z "$1" ]]; then
+        echo "用法: gunskip <檔案>"
+        echo "提示: 使用 gskip-ls 查看已忽略的檔案"
+        return 1
+    fi
+
+    if ! git ls-files --error-unmatch "$1" &>/dev/null; then
+        echo "錯誤: $1 不在 git 追蹤中"
+        return 1
+    fi
+
+    git update-index --no-skip-worktree "$1"
+    echo "已恢復追蹤變更: $1"
+}
+
 # -----------------------------------------------------------------------------
 # 歡迎訊息
 # -----------------------------------------------------------------------------
@@ -159,6 +227,12 @@ show_welcome() {
     echo "  s, p         - 上一層/前一個目錄"
     echo "  md, rd       - 建立/刪除目錄"
     echo "  cp, mv, rm   - 檔案操作（安全模式）"
+    echo ""
+    echo "Git 工具："
+    echo "  gexclude <file> - 添加到本地 .git/info/exclude"
+    echo "  gskip <file>    - 忽略檔案變更（保留本地修改）"
+    echo "  gunskip <file>  - 恢復追蹤檔案變更"
+    echo "  gskip-ls        - 查看已忽略的檔案"
     echo ""
     echo "實用函數："
     echo "  mkcd <dir>   - 建立目錄並進入"
