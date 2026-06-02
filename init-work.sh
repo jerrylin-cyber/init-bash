@@ -247,8 +247,11 @@ show_welcome() {
     echo ""
 }
 
-# 只在互動式 shell 顯示歡迎訊息
-[[ $- == *i* ]] && show_welcome
+# 僅在人類互動式終端（TTY）自動顯示；MCP/腳本常用 -c 啟動會略過
+if [[ $- == *i* ]] && [[ -t 0 ]] && [[ -t 1 ]] \
+   && [[ -z "${ZSH_EXECUTION_STRING:-}" ]] && [[ -z "${BASH_EXECUTION_STRING:-}" ]]; then
+    show_welcome
+fi
 
 # 確保回傳成功狀態碼
 :
